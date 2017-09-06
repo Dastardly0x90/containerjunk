@@ -9,15 +9,19 @@
 FROM ubuntu:16.04
 LABEL maintainer="dastardly0x90@gmail.com"
 RUN apt-get update && apt-get install -y \
-	git 
+        git \
+        wget \
+        python \
+        lsb-release
 
 RUN git clone https://github.com/EmpireProject/Empire.git
-# Generates staging key for database
+#Generates staging key for database
 ENV STAGING_KEY=RANDOM
 
 EXPOSE 8080
 WORKDIR /Empire
-# Installs Empire
-RUN bash -c "./setup/install.sh"
+#Installs Empire
+RUN bash -c "./setup/install.sh" \
+        && rm -rf /var/lib/apt/lists/*
 
 CMD ["./empire"]
